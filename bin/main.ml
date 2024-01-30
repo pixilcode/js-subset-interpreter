@@ -1,4 +1,4 @@
-open Js_impl
+open Js_interpreter
 
 (* read stdin into a string *)
 let () =

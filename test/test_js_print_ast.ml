@@ -1,4 +1,4 @@
-open Js_impl
+open Js_interpreter
 
 let run_acorn js =
   (* write the js to a temp file *)
@@ -27,7 +27,7 @@ let run_test (name, js) =
   print_endline ("--- " ^ name ^ " ---");
 
   let json = run_acorn js in
-  let ast = Ast.from_json json in
+  let ast = Ast.from_json_string json in
   let s_expr = S_expr.from_ast ast in
 
   print_endline (S_expr.pretty_print s_expr);

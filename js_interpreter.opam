@@ -5,8 +5,8 @@ description: "A longer description"
 maintainer: ["Maintainer Name"]
 authors: ["Brendon Bown"]
 tags: ["topics" "to describe" "your" "project"]
-homepage: "https://github.com/pixilcode/ocaml_js_impl"
-bug-reports: "https://github.com/pixilcode/ocaml_js_impl/issues"
+homepage: "https://github.com/pixilcode/ocaml_js_interpreter"
+bug-reports: "https://github.com/pixilcode/ocaml_js_interpreter/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.13"}
@@ -26,4 +26,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/pixilcode/ocaml_js_impl.git"
+dev-repo: "git+https://github.com/pixilcode/ocaml_js_interpreter.git"

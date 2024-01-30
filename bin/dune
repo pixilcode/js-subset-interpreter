@@ -1,4 +1,4 @@
 (executable
- (public_name js_impl)
+ (public_name js_interpreter)
  (name main)
- (libraries js_impl))
+ (libraries js_interpreter))

@@ -16,5 +16,5 @@
 For a file containing JavaScript code, let's say `foo.js`, run the following:
 
 ```bash
-acorn --ecma2024 foo.js | dune exec js_impl
+acorn --ecma2024 foo.js | dune exec js_interpreter
 ```
