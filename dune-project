@@ -5,18 +5,13 @@
 (generate_opam_files true)
 
 (source
- (github pixilcode/ocaml_js_interpreter))
+ (github pixilcode/cs330_js_interpreter_ocaml))
 
 (authors "Brendon Bown")
 
-(maintainers "Maintainer Name")
-
 (package
  (name js_interpreter)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "An interpreter for a JavaScript-like language, written for CS 330")
  (depends
   ocaml
-  dune)
- (tags
-  (topics "to describe" your project)))
+  dune))
