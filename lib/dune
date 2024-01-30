@@ -1,2 +1,3 @@
 (library
- (name js_impl))
+ (name js_impl)
+ (libraries yojson))

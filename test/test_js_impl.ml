@@ -12,8 +12,8 @@ let run_acorn js =
   ignore (Sys.command ("acorn --ecma2024 " ^ temp_js_file ^ " > " ^ temp_json_file) : int);
 
   (* read the result *)
-  let ic = open_in temp_json_file in
-  let json = input_line ic in
+  let ic = open_in_bin temp_json_file in
+  let json = really_input_string ic (in_channel_length ic) in
   close_in ic;
 
   (* delete the temp files *)
