@@ -3,3 +3,6 @@
 
 --- unary ---
 (unary ! (boolean true))
+
+--- arithmetic ---
+(arithmetic - (arithmetic + (number 1) (number 2)) (arithmetic / (arithmetic * (number 3) (number 4)) (number 5)))

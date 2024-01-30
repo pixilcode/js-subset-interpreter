@@ -34,7 +34,8 @@ let run_test (name, js) =
 
 let tests = [
   ("simple_number", "1");
-  ("unary", "!true")
+  ("unary", "!true");
+  ("arithmetic", "1 + 2 - 3 * 4 / 5")
 ]
 
 (* iterate over all the tests and run them *)
