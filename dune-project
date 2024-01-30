@@ -11,12 +11,12 @@
 
 (maintainers "Maintainer Name")
 
-(license LICENSE)
-
 (package
  (name js_impl)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune)
+ (depends
+  ocaml
+  dune)
  (tags
   (topics "to describe" your project)))

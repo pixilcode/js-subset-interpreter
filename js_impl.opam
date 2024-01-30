@@ -4,7 +4,6 @@ synopsis: "A short synopsis"
 description: "A longer description"
 maintainer: ["Maintainer Name"]
 authors: ["Brendon Bown"]
-license: "LICENSE"
 tags: ["topics" "to describe" "your" "project"]
 homepage: "https://github.com/pixilcode/ocaml_js_impl"
 bug-reports: "https://github.com/pixilcode/ocaml_js_impl/issues"
