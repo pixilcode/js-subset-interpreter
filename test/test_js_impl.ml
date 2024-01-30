@@ -8,9 +8,6 @@ let run_acorn js =
   output_string oc js;
   close_out oc;
 
-  print_endline ("temp js file: " ^ temp_js_file);
-  print_endline ("temp json file: " ^ temp_json_file);
-
   (* run acorn on the temp file *)
   ignore (Sys.command ("acorn --ecma2024 " ^ temp_js_file ^ " > " ^ temp_json_file) : int);
 
@@ -28,9 +25,11 @@ let run_acorn js =
 (* run a test and print the result *)
 let run_test (name, js) =
   print_endline ("--- " ^ name ^ " ---");
+
   let json = run_acorn js in
   let ast = Ast.from_json json in
   let s_expr = S_expr.from_ast ast in
+
   print_endline (S_expr.pretty_print s_expr)
 
 let tests = [
