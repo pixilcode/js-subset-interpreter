@@ -33,7 +33,8 @@ let run_test (name, js) =
   print_endline (S_expr.pretty_print s_expr)
 
 let tests = [
-  ("simple_number", "1")
+  ("simple_number", "1");
+  ("unary", "!true")
 ]
 
 (* iterate over all the tests and run them *)

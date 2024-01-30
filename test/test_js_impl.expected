@@ -1,2 +1,5 @@
 --- simple_number ---
 (number 1)
+
+--- unary ---
+(unary ! (boolean true))
