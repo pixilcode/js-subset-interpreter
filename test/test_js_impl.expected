@@ -6,3 +6,10 @@
 
 --- arithmetic ---
 (arithmetic - (arithmetic + (number 1) (number 2)) (arithmetic / (arithmetic * (number 3) (number 4)) (number 5)))
+
+--- relational ---
+(relational == (relational < (number 1) (number 2)) (boolean true))
+
+--- logical ---
+(logical || (logical && (boolean true) (boolean false)) (boolean false))
+

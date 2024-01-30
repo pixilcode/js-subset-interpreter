@@ -30,12 +30,15 @@ let run_test (name, js) =
   let ast = Ast.from_json json in
   let s_expr = S_expr.from_ast ast in
 
-  print_endline (S_expr.pretty_print s_expr)
+  print_endline (S_expr.pretty_print s_expr);
+  print_newline ()
 
 let tests = [
   ("simple_number", "1");
   ("unary", "!true");
-  ("arithmetic", "1 + 2 - 3 * 4 / 5")
+  ("arithmetic", "1 + 2 - 3 * 4 / 5");
+  ("relational", "1 < 2 == true");
+  ("logical", "true && false || false")
 ]
 
 (* iterate over all the tests and run them *)

@@ -75,8 +75,40 @@ module Expression = struct
       | "-" -> Unary (Negate_number, argument)
       | "+" -> Unary (Positive, argument)
       | _ -> failwith "Invalid JSON"
+    else if node_is_type json "BinaryExpression" then
+      let operator = json |> member "operator" |> to_string in
+      let left = json |> member "left" in
+      let left = from_json left in
+      let right = json |> member "right" in
+      let right = from_json right in
+      match operator with
+      | "+" -> Binary (left, Plus, right)
+      | "-" -> Binary (left, Minus, right)
+      | "*" -> Binary (left, Times, right)
+      | "/" -> Binary (left, Divide, right)
+      | "==" -> Binary (left, Equal, right)
+      | "<" -> Binary (left, Less_than, right)
+      | _ -> failwith "Invalid JSON"
+    else if node_is_type json "LogicalExpression" then
+      let operator = json |> member "operator" |> to_string in
+      let left = json |> member "left" in
+      let left = from_json left in
+      let right = json |> member "right" in
+      let right = from_json right in
+      match operator with
+      | "&&" -> Logical (left, And, right)
+      | "||" -> Logical (left, Or, right)
+      | _ -> failwith "Invalid JSON"
+    else if node_is_type json "ConditionalExpression" then
+      let test = json |> member "test" in
+      let test = from_json test in
+      let consequent = json |> member "consequent" in
+      let consequent = from_json consequent in
+      let alternate = json |> member "alternate" in
+      let alternate = from_json alternate in
+      Conditional (test, consequent, alternate)
     else
-      failwith "Not implemented"
+      failwith "Invalid JSON"
 end
 
 module Statement = struct
