@@ -24,7 +24,7 @@ let from_ast ast =
   ) in
 
   let from_literal = function
-    | Literal.Number n -> Expr [number_keyword; Atom (string_of_float n)]
+    | Literal.Number n -> Expr [number_keyword; Atom (string_of_int n)]
     | Literal.Boolean b -> Expr [boolean_keyword; Atom (string_of_bool b)]
   in  
   

@@ -7,7 +7,7 @@ let node_is_type json type_ =
 
 module Literal = struct
   type t =
-    | Number of float
+    | Number of int
     | Boolean of bool
 end
 
@@ -63,8 +63,7 @@ module Expression = struct
     let open Yojson.Basic.Util in
     if node_is_type json "Literal" then
       match json |> member "value" with
-      | `Float value -> Literal (Number value)
-      | `Int value -> Literal (Number (float_of_int value))
+      | `Int value -> Literal (Number value)
       | `Bool value -> Literal (Boolean value)
       | _ -> failwith "Invalid JSON"
     else
