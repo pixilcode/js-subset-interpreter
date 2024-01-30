@@ -59,12 +59,21 @@ module Expression = struct
     | Logical of t * Logical_operator.t * t
     | Conditional of t * t * t
 
-  let from_json json =
+  let rec from_json json =
     let open Yojson.Basic.Util in
     if node_is_type json "Literal" then
       match json |> member "value" with
       | `Int value -> Literal (Number value)
       | `Bool value -> Literal (Boolean value)
+      | _ -> failwith "Invalid JSON"
+    else if node_is_type json "UnaryExpression" then
+      let operator = json |> member "operator" |> to_string in
+      let argument = json |> member "argument" in
+      let argument = from_json argument in
+      match operator with
+      | "!" -> Unary (Negate_bool, argument)
+      | "-" -> Unary (Negate_number, argument)
+      | "+" -> Unary (Positive, argument)
       | _ -> failwith "Invalid JSON"
     else
       failwith "Not implemented"
