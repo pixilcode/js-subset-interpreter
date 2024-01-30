@@ -19,6 +19,14 @@ module Binary_operator = struct
     | Divide
     | Equal
     | Less_than
+  
+  let to_string = function
+    | Plus -> "+"
+    | Minus -> "-"
+    | Times -> "*"
+    | Divide -> "/"
+    | Equal -> "=="
+    | Less_than -> "<"
 end
 
 module Unary_operator = struct
@@ -26,12 +34,21 @@ module Unary_operator = struct
     | Negate_bool
     | Negate_number
     | Positive
+  
+  let to_string = function
+    | Negate_bool -> "!"
+    | Negate_number -> "-"
+    | Positive -> "+"
 end
 
 module Logical_operator = struct
   type t =
     | And
     | Or
+  
+  let to_string = function
+    | And -> "&&"
+    | Or -> "||"
 end
 
 module Expression = struct
