@@ -138,6 +138,6 @@ module Program = struct
       failwith "Invalid JSON"
 end
 
-let from_json json =
+let from_json_string json =
   let json = Yojson.Basic.from_string json in
   Program.from_json json
