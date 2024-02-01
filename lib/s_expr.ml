@@ -71,7 +71,13 @@ let from_ast ast =
   in
   from_program ast
 
-let rec pretty_print s_expr =
+let from_result result =
+  match result with
+  | Ok (Value.Integer _i) -> failwith "Unimplemented"
+  | Ok (Value.Boolean _b) -> failwith "Unimplemented"
+  | Error (_message) -> failwith "Unimplemented"
+
+let rec to_string s_expr =
   match s_expr with
-  | Expr l -> "(" ^ String.concat " " (List.map pretty_print l) ^ ")"
+  | Expr l -> "(" ^ String.concat " " (List.map to_string l) ^ ")"
   | Atom s -> s
