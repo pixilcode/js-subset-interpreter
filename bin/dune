@@ -1,4 +1,4 @@
-(executable
- (public_name print_ast)
- (name main)
+(executables
+ (public_names print_ast interpret)
+ (names print_ast interpret)
  (libraries js_interpreter))
