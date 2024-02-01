@@ -73,7 +73,7 @@ let from_ast ast =
 
 let from_result result =
   match result with
-  | Ok (Value.Integer _i) -> failwith "Unimplemented"
+  | Ok (Value.Number _i) -> failwith "Unimplemented"
   | Ok (Value.Boolean _b) -> failwith "Unimplemented"
   | Error (_message) -> failwith "Unimplemented"
 

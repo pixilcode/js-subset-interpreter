@@ -1,3 +1,3 @@
 type t =
-| Integer of int
+| Number of int
 | Boolean of bool
