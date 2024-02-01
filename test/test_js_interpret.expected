@@ -1,0 +1,14 @@
+--- simple_number ---
+(value (number 1))
+
+--- unary ---
+(value (boolean false))
+
+--- arithmetic ---
+(value (number 1))
+
+--- relational ---
+(value (boolean true))
+
+--- logical ---
+(value (boolean false))
