@@ -1,3 +1,4 @@
+(* TODO: factor out parsing *)
 let get_node_type json =
   let open Yojson.Basic.Util in
   json |> member "type" |> to_string
