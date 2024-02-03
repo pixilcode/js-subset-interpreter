@@ -73,9 +73,14 @@ let from_ast ast =
 
 let from_result result =
   match result with
-  | Ok (Value.Number _i) -> failwith "Unimplemented"
-  | Ok (Value.Boolean _b) -> failwith "Unimplemented"
-  | Error (_message) -> failwith "Unimplemented"
+  | Ok value ->
+    let value =
+      match value with
+      | Value.Number i -> Expr [Atom "number"; Atom (string_of_int i)]
+      | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
+    in
+    Expr [Atom "value"; value]
+  | Error message-> Expr [Atom "error"; Atom message]
 
 let rec to_string s_expr =
   match s_expr with
