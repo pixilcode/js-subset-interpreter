@@ -80,7 +80,7 @@ let from_result result =
       | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
     in
     Expr [Atom "value"; value]
-  | Error message-> Expr [Atom "error"; Atom message]
+  | Error message -> Expr [Atom "error"; Atom ("\"" ^ message ^ "\"")]
 
 let rec to_string s_expr =
   match s_expr with
