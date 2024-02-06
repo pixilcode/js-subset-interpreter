@@ -28,3 +28,33 @@
 --- error_boolean_2 ---
 (error "Invalid logical operation")
 
+--- error_boolean_3 ---
+(error "Invalid logical operation")
+
+--- error_boolean_4 ---
+(error "Invalid logical operation")
+
+--- error_arithmetic_1 ---
+(error "Invalid arithmetic operation")
+
+--- error_arithmetic_2 ---
+(error "Invalid arithmetic operation")
+
+--- error_arithmetic_3 ---
+(error "Invalid arithmetic operation")
+
+--- error_arithmetic_4 ---
+(error "Invalid arithmetic operation")
+
+--- error_unary_1 ---
+(error "Invalid unary operation")
+
+--- error_unary_2 ---
+(error "Invalid unary operation")
+
+--- error_unary_3 ---
+(error "Invalid unary operation")
+
+--- error_conditional ---
+(error "Invalid condition in conditional")
+

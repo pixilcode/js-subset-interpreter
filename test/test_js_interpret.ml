@@ -22,7 +22,17 @@ let tests = [
   ("short_circuit_or_logic", "1 == 1 || true + false");
   ("short_circuit_and_logic", "1 == 2 && true + false");
   ("error_boolean_1", "1 == 2 || 1 + 2");
-  ("error_boolean_2", "1 == 1 && 1 + 2")
+  ("error_boolean_2", "1 == 1 && 1 + 2");
+  ("error_boolean_3", "1 && true");
+  ("error_boolean_4", "false || 3");
+  ("error_arithmetic_1", "1 + true");
+  ("error_arithmetic_2", "true - 1");
+  ("error_arithmetic_3", "false * true");
+  ("error_arithmetic_4", "true / true");
+  ("error_unary_1", "!1");
+  ("error_unary_2", "-true");
+  ("error_unary_3", "+false");
+  ("error_conditional", "1 ? 2 : 3")
   (* TODO: write tests that produce errors *)
 ]
 
