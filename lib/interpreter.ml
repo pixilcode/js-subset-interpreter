@@ -1,7 +1,7 @@
 open Core
 
 let error msg =
-  Error msg
+  Error ("Oh bananas! " ^ msg)
 
 let interpret ast =
   let open Ast in
