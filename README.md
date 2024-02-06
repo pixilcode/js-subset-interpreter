@@ -11,10 +11,18 @@
     excluding `-g` will install it locally)
 
 
-## Running the program
+## Running the parser
 
 For a file containing JavaScript code, let's say `foo.js`, run the following:
 
 ```bash
 acorn --ecma2024 foo.js | dune exec print_ast
+```
+
+## Running the interpreter
+
+For a file containing JavaScript code, let's say `foo.js`, run the following:
+
+```bash
+acorn --ecma2024 foo.js | dune exec interpret
 ```
