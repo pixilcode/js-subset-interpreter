@@ -34,14 +34,18 @@ let interpret ast =
     | Expression.Logical (lhs, op, rhs) -> begin
       eval_expression lhs >>= fun lhs ->
       let open Logical_operator in
-      match (lhs, op) with
+      match lhs, op with
       (* short-circuit boolean operators *)
-      | (Value.Boolean false, And)
-      | (Value.Boolean true, Or) -> Ok lhs
+      | Value.Boolean false, And
+      | Value.Boolean true, Or -> Ok lhs
       (* evaluate second argument*)
-      | (Value.Boolean true, And)
-      | (Value.Boolean false, Or) ->
-        eval_expression rhs 
+      | Value.Boolean true, And
+      | Value.Boolean false, Or -> begin
+        eval_expression rhs >>= fun rhs ->
+        match rhs with 
+        | Value.Boolean _ -> Ok rhs
+        | _ -> error "Invalid logical operation" (* TODO: better error message *)
+      end
       (* invalid operators *)
       | _ -> error "Invalid logical operation" (* TODO: better error message *)
     end

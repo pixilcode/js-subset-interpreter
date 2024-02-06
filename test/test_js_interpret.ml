@@ -20,7 +20,9 @@ let tests = [
   ("equality", "1 == 2");
   ("logical", "true && false || false");
   ("short_circuit_or_logic", "1 == 1 || true + false");
-  ("short_circuit_and_logic", "1 == 2 && true + false")
+  ("short_circuit_and_logic", "1 == 2 && true + false");
+  ("error_boolean_1", "1 == 2 || 1 + 2");
+  ("error_boolean_2", "1 == 1 && 1 + 2")
   (* TODO: write tests that produce errors *)
 ]
 

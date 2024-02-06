@@ -21,3 +21,10 @@
 
 --- short_circuit_and_logic ---
 (value (boolean false))
+
+--- error_boolean_1 ---
+(error "Invalid logical operation")
+
+--- error_boolean_2 ---
+(error "Invalid logical operation")
+
