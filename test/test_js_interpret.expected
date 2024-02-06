@@ -10,5 +10,14 @@
 --- relational ---
 (value (boolean true))
 
+--- equality ---
+(value (boolean false))
+
 --- logical ---
+(value (boolean false))
+
+--- short_circuit_or_logic ---
+(value (boolean true))
+
+--- short_circuit_and_logic ---
 (value (boolean false))

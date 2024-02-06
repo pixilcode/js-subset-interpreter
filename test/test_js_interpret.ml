@@ -16,8 +16,11 @@ let tests = [
   ("simple_number", "1");
   ("unary", "!true");
   ("arithmetic", "1 + 2 - 3 * 4 / 6");
-  ("relational", "1 < 2 == true");
-  ("logical", "true && false || false")
+  ("relational", "1 < 2");
+  ("equality", "1 == 2");
+  ("logical", "true && false || false");
+  ("short_circuit_or_logic", "1 == 1 || true + false");
+  ("short_circuit_and_logic", "1 == 2 && true + false")
   (* TODO: write tests that produce errors *)
 ]
 
