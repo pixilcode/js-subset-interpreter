@@ -32,7 +32,8 @@ let tests = [
   ("error_unary_1", "!1");
   ("error_unary_2", "-true");
   ("error_unary_3", "+false");
-  ("error_conditional", "1 ? 2 : 3")
+  ("error_conditional", "1 ? 2 : 3");
+  ("error_divide_by_zero", "6 / 0")
   (* TODO: write tests that produce errors *)
 ]
 

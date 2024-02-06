@@ -25,7 +25,11 @@ let interpret ast =
         | Plus -> Ok (Value.Number (lhs + rhs))
         | Minus -> Ok (Value.Number (lhs - rhs))
         | Times -> Ok (Value.Number (lhs * rhs))
-        | Divide -> Ok (Value.Number (lhs / rhs))
+        | Divide ->
+          if rhs = 0 then
+            error "Cannot divide by zero"
+          else
+            Ok (Value.Number (lhs / rhs))
         | Equal -> Ok (Value.Boolean (lhs = rhs))
         | Less_than -> Ok (Value.Boolean (lhs < rhs))
       end

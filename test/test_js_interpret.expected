@@ -58,3 +58,6 @@
 --- error_conditional ---
 (error "Oh bananas! Invalid condition in conditional")
 
+--- error_divide_by_zero ---
+(error "Oh bananas! Cannot divide by zero")
+
