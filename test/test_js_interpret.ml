@@ -33,8 +33,15 @@ let tests = [
   ("error_unary_2", "-true");
   ("error_unary_3", "+false");
   ("error_conditional", "1 ? 2 : 3");
-  ("error_divide_by_zero", "6 / 0")
-  (* TODO: write tests that produce errors *)
+  ("error_divide_by_zero", "6 / 0");
+
+  (* local binding tests *)
+  (
+    "simple_binding", "
+    let x = 0;
+    x + 1
+    "
+  );
 ]
 
 (* iterate over all the tests and run them *)
