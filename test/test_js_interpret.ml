@@ -5,7 +5,7 @@ let run_test (name, js) =
   print_endline ("--- " ^ name ^ " ---");
 
   let json = Util.run_acorn js in
-  let ast = Ast.from_json_string json in
+  let ast = Parser.from_json_string json in
   let result = Interpreter.interpret ast in
   let s_expr = S_expr.from_result result in
 
