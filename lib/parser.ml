@@ -63,11 +63,30 @@ let from_json_string json =
       failwith "Invalid JSON"
   in
 
+  let declaration_from_json json =
+    if node_is_type json "VariableDeclarator" then
+      let ident =
+        json
+        |> member "id"
+        |> member "name"
+        |> to_string
+      in
+      let expr_json = json |> member "init" in
+      let expr = expression_from_json expr_json in
+      (ident, expr)
+    else
+      failwith "Invalid JSON"
+  in
+
   let statement_from_json json =
     if node_is_type json "ExpressionStatement" then
       let expression = json |> member "expression" in
       let expression = expression_from_json expression in
       Statement.Expression_statement expression
+    else if node_is_type json "VariableDeclaration" then
+      let declarations = json |> member "declarations" |> to_list in
+      let declarations = List.map declaration_from_json declarations in
+      Statement.Variable_declaration declarations
     else
       failwith "Invalid JSON"
   in
@@ -75,9 +94,8 @@ let from_json_string json =
   let program_from_json json =
     if node_is_type json "Program" then
       let statements = json |> member "body" |> to_list in
-      let first_statement = List.hd statements in
-      let first_statement = statement_from_json first_statement in
-      Program.Program first_statement
+      let statements = List.map statement_from_json statements in
+      Program.Program statements
     else
       failwith "Invalid JSON"
   in

@@ -2,6 +2,9 @@ type t =
   | Expr of t list
   | Atom of string
 
+let string_atom s =
+  Atom ("\"" ^ s ^ "\"")
+
 let from_ast ast =
   let open Ast in
 
@@ -12,7 +15,11 @@ let from_ast ast =
     arithmetic_keyword,
     relational_keyword,
     logical_keyword,
-    conditional_keyword
+    conditional_keyword,
+    identifier_keyword,
+    expression_statement_keyword,
+    variable_declaration_keyword,
+    program_keyword
   ) = (
     Atom "boolean",
     Atom "number",
@@ -20,7 +27,11 @@ let from_ast ast =
     Atom "arithmetic",
     Atom "relational",
     Atom "logical",
-    Atom "conditional"
+    Atom "conditional",
+    Atom "identifier",
+    Atom "expression_statement",
+    Atom "variable_declaration",
+    Atom "program"
   ) in
 
   let from_literal = function
@@ -60,14 +71,23 @@ let from_ast ast =
       let then_ = from_expression then_ in
       let else_ = from_expression else_ in
       Expr [conditional_keyword; cond; then_; else_]
+    | Expression.Identifier ident ->
+      Expr [identifier_keyword; string_atom ident]
   in
 
   let from_statement = function
-    | Statement.Expression_statement e -> from_expression e
+    | Statement.Expression_statement e -> Expr [ expression_statement_keyword; from_expression e ]
+    | Statement.Variable_declaration decls ->
+      let decls = List.map (fun (ident, e) ->
+          Expr [ Expr [identifier_keyword; string_atom ident]; from_expression e ]
+        ) decls in
+      Expr ([ variable_declaration_keyword ] @ decls)
   in
 
   let from_program = function
-    | Program.Program first_statement -> from_statement first_statement
+    | Program.Program statements -> 
+      let statement_list = List.map from_statement statements in
+      Expr ([program_keyword] @ statement_list)
   in
   from_program ast
 
@@ -80,7 +100,7 @@ let from_result result =
       | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
     in
     Expr [Atom "value"; value]
-  | Error message -> Expr [Atom "error"; Atom ("\"" ^ message ^ "\"")]
+  | Error message -> Expr [Atom "error"; string_atom message]
 
 let rec to_string s_expr =
   match s_expr with

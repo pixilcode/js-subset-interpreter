@@ -1,3 +1,7 @@
+module Identifier = struct
+  type t = string
+end
+
 module Literal = struct
   type t =
     | Number of int
@@ -47,6 +51,7 @@ end
 module Expression = struct
   type t =
     | Literal of Literal.t
+    | Identifier of Identifier.t
     | Binary of t * Binary_operator.t * t
     | Unary of Unary_operator.t * t
     | Logical of t * Logical_operator.t * t
@@ -54,9 +59,11 @@ module Expression = struct
 end
 
 module Statement = struct
-  type t = Expression_statement of Expression.t
+  type t =
+    | Expression_statement of Expression.t
+    | Variable_declaration of (Identifier.t * Expression.t) list
 end
 
 module Program = struct
-  type t = Program of Statement.t
+  type t = Program of Statement.t list
 end
