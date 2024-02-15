@@ -59,6 +59,9 @@ let from_json_string json =
       let alternate = json |> member "alternate" in
       let alternate = expression_from_json alternate in
       Conditional (test, consequent, alternate)
+    else if node_is_type json "Identifier" then
+      let name = json |> member "name" |> to_string in
+      Identifier name
     else
       failwith "Invalid JSON"
   in
