@@ -7,10 +7,17 @@ let run_test (name, js) =
   let json = Util.run_acorn js in
   let ast = Parser.from_json_string json in
   let result = Interpreter.interpret ast in
-  let s_expr = S_expr.from_result result in
-
-  print_endline (S_expr.to_string s_expr);
-  print_newline ()
+  match result with
+  | Ok (values, _env) ->
+    let values = List.map S_expr.from_value values in
+    let values = List.map S_expr.to_string values in
+    List.iter print_endline values;
+    print_newline ()
+  | Error message ->
+    let message = S_expr.from_error message in
+    let message = S_expr.to_string message in
+    print_endline message;
+    print_newline ()
 
 let tests = [
   ("simple_number", "1");

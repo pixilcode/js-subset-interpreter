@@ -91,16 +91,16 @@ let from_ast ast =
   in
   from_program ast
 
-let from_result result =
-  match result with
-  | Ok value ->
-    let value =
-      match value with
-      | Value.Number i -> Expr [Atom "number"; Atom (string_of_int i)]
-      | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
-    in
-    Expr [Atom "value"; value]
-  | Error message -> Expr [Atom "error"; string_atom message]
+let from_value value =
+  let value = 
+    match value with
+    | Value.Number i -> Expr [Atom "number"; Atom (string_of_int i)]
+    | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
+  in
+  Expr [Atom "value"; value]
+
+let from_error message =
+  Expr [Atom "error"; string_atom message]
 
 let rec to_string s_expr =
   match s_expr with
