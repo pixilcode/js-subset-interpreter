@@ -49,6 +49,28 @@ let tests = [
     x + 1
     "
   );
+
+  (
+    "undefined_variable", "
+    let x = 0;
+    y + 1
+    "
+  );
+
+  (
+    "multiple_definitions", "
+    let x = 1;
+    let y = 2;
+    x + y
+    "
+  );
+
+  (
+    "multiple_definitions_same_decl", "
+    let x = 1, y = 2;
+    x + y
+    "
+  );
 ]
 
 (* iterate over all the tests and run them *)

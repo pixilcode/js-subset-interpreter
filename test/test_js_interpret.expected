@@ -61,3 +61,15 @@
 --- error_divide_by_zero ---
 (error "Oh bananas! Cannot divide by zero")
 
+--- simple_binding ---
+(value (number 1))
+
+--- undefined_variable ---
+(error "Oh bananas! Undefined identifier")
+
+--- multiple_definitions ---
+(value (number 3))
+
+--- multiple_definitions_same_decl ---
+(value (number 3))
+
