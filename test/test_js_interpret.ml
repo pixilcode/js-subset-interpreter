@@ -71,6 +71,14 @@ let tests = [
     x + y
     "
   );
+
+  (* function expression tests *)
+  (
+    "simple_function", "
+    let f = function() { return 1 }
+    f()
+    "
+  );
 ]
 
 (* iterate over all the tests and run them *)
