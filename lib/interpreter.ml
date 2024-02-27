@@ -102,13 +102,12 @@ let interpret ast =
       failwith "unimplemented"
     | Expression.Function (arg_name, body) ->
       failwith "unimplemented"
-  in
 
-  let eval_statement s env: (Value.t option * Env.t, string) result =
+  and eval_statement s env: (Value.t option * Env.t, string) result =
     match s with
     | Statement.Expression_statement e ->
       eval_expression e env >>| fun (value, env) ->
-        (Some value, env)
+      (Some value, env)
     | Statement.Variable_declaration decls ->
       let env = List.fold decls ~init:(Ok env) ~f:(fun env (ident, expr) ->
         env >>= fun env ->
@@ -118,21 +117,26 @@ let interpret ast =
       ) in
       env >>| fun env ->
       (None, env)
-    | Statement.Block_statement statements ->
-      failwith "unimplemented"
+    | Statement.Block_statement stmts ->
+      eval_statement_list stmts env >>| fun (_results, env) ->
+      (* a block doesn't return its results *)
+      (None, env)
     | Statement.Return_statement expression ->
       failwith "unimplemented"
+  
+  and eval_statement_list stmts env: (Value.t list * Env.t, string) result =
+    List.fold stmts ~init:(Ok ([], env)) ~f:(fun prev_result s ->
+      prev_result >>= fun (prev_outputs, env) ->
+      eval_statement s env >>= fun (output, env) ->
+      let output = Option.to_list output in
+      Ok (prev_outputs @ output, env)
+    )
   in
   
   let eval_program p env: (Value.t list * Env.t, string) result =
     match p with
     | Program.Program stmts ->
-      List.fold stmts ~init:(Ok ([], env)) ~f:(fun prev_result s ->
-        prev_result >>= fun (prev_outputs, env) -> 
-        eval_statement s env >>= fun (output, env) ->
-        let output = Option.to_list output in
-        Ok (prev_outputs @ output, env)
-      )
+      eval_statement_list stmts env
   in
   
   eval_program ast Env.empty
