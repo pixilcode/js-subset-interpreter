@@ -19,7 +19,12 @@ let from_ast ast =
     identifier_keyword,
     expression_statement_keyword,
     variable_declaration_keyword,
-    program_keyword
+    program_keyword,
+    call_keyword,
+    function_keyword,
+    function_body_keyword,
+    block_keyword,
+    return_keyword
   ) = (
     Atom "boolean",
     Atom "number",
@@ -31,7 +36,12 @@ let from_ast ast =
     Atom "identifier",
     Atom "expression_statement",
     Atom "variable_declaration",
-    Atom "program"
+    Atom "program",
+    Atom "call",
+    Atom "function",
+    Atom "body",
+    Atom "block",
+    Atom "return"
   ) in
 
   let from_literal = function
@@ -73,15 +83,31 @@ let from_ast ast =
       Expr [conditional_keyword; cond; then_; else_]
     | Expression.Identifier ident ->
       Expr [identifier_keyword; string_atom ident]
-  in
+    | Expression.Call (fn, arg) ->
+      let fn = from_expression fn in
+      let arg = from_expression arg in
+      Expr [call_keyword; fn; arg]
+    | Expression.Function (arg_name, body) ->
+      let body = List.map from_statement body in
+      Expr [
+        function_keyword;
+        string_atom arg_name;
+        Expr ([ function_body_keyword; ] @ body)
+      ]
 
-  let from_statement = function
+  and from_statement = function
     | Statement.Expression_statement e -> Expr [ expression_statement_keyword; from_expression e ]
     | Statement.Variable_declaration decls ->
       let decls = List.map (fun (ident, e) ->
           Expr [ Expr [identifier_keyword; string_atom ident]; from_expression e ]
         ) decls in
       Expr ([ variable_declaration_keyword ] @ decls)
+    | Statement.Block_statement statements ->
+      let statements = List.map from_statement statements in
+      Expr ([ block_keyword ] @ statements)
+    | Statement.Return_statement expression ->
+      let expression = from_expression expression in
+      Expr [ return_keyword; expression ]
   in
 
   let from_program = function

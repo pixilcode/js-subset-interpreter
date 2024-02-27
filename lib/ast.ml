@@ -49,19 +49,23 @@ module Logical_operator = struct
 end
 
 module Expression = struct
-  type t =
+  type 'stmt t =
     | Literal of Literal.t
     | Identifier of Identifier.t
-    | Binary of t * Binary_operator.t * t
-    | Unary of Unary_operator.t * t
-    | Logical of t * Logical_operator.t * t
-    | Conditional of t * t * t
+    | Binary of 'stmt t * Binary_operator.t * 'stmt t
+    | Unary of Unary_operator.t * 'stmt t
+    | Logical of 'stmt t * Logical_operator.t * 'stmt t
+    | Conditional of 'stmt t * 'stmt t * 'stmt t
+    | Call of 'stmt t * 'stmt t
+    | Function of Identifier.t * ('stmt list)
 end
 
 module Statement = struct
   type t =
-    | Expression_statement of Expression.t
-    | Variable_declaration of (Identifier.t * Expression.t) list
+    | Expression_statement of t Expression.t
+    | Variable_declaration of (Identifier.t * t Expression.t) list
+    | Return_statement of t Expression.t
+    | Block_statement of t list
 end
 
 module Program = struct
