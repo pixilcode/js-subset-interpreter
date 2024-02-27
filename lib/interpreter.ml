@@ -98,6 +98,10 @@ let interpret ast =
       Option.value_map value ~default:ident_error ~f:(
         fun value -> Ok (value, env)
       )
+    | Expression.Call (fn, arg) ->
+      failwith "unimplemented"
+    | Expression.Function (arg_name, body) ->
+      failwith "unimplemented"
   in
 
   let eval_statement s env: (Value.t option * Env.t, string) result =
@@ -114,6 +118,10 @@ let interpret ast =
       ) in
       env >>| fun env ->
       (None, env)
+    | Statement.Block_statement statements ->
+      failwith "unimplemented"
+    | Statement.Return_statement expression ->
+      failwith "unimplemented"
   in
   
   let eval_program p env: (Value.t list * Env.t, string) result =

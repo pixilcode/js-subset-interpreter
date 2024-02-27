@@ -75,7 +75,7 @@ let tests = [
   (* function expression tests *)
   (
     "simple_function", "
-    let f = function() { return 1 }
+    let f = function(x) { return 1 }
     f()
     "
   );
