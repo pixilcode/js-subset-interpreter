@@ -81,10 +81,12 @@ let interpret ast =
     | Expression.Call (fn, arg) -> begin
       eval_expression fn env >>= fun (fn, env) ->
       eval_expression arg env >>= fun (arg, env) ->
-      eval_function_call fn arg env
+      eval_function_call fn arg >>= fun result ->
+      Ok (result, env)
     end
     | Expression.Function (arg_name, body) ->
-      failwith "unimplemented"
+      let function_value = Value.Function (arg_name, body, env) in
+      Ok (function_value, env)
 
   and eval_statement s env: (Value.t option * Value.t Env.t, string) result =
     match s with
@@ -107,17 +109,26 @@ let interpret ast =
     | Statement.Return_statement _expression ->
       error "Return statement outside of a function"
     
-  and eval_function_call fn arg env: (Value.t, string) result =
-    let original_env = env in
+  and eval_function_call fn arg: (Value.t, string) result =
     match fn with
     | Value.Function (arg_name, body, env) ->
       let env =
         Env.with_parent env
         |> Env.set ~ident:arg_name ~value:arg
       in
-      eval_function_body
+      ignore (eval_function_body body env);
       failwith ""
     | _ -> error "Non-function item cannot be called"
+  
+  and eval_function_body stmts env: (Value.t, string) result =
+    match stmts with
+    | [] -> Ok Value.Void
+    | (Statement.Return_statement return_expr) :: _rest ->
+      eval_expression return_expr env >>= fun (return_value, _env) ->
+        Ok return_value
+    | stmt :: stmts_rest ->
+      eval_statement stmt env >>= fun (_output, env) ->
+      eval_function_body stmts_rest env
   
   and eval_statement_list stmts env: (Value.t list * Value.t Env.t, string) result =
     List.fold stmts ~init:(Ok ([], env)) ~f:(fun prev_result s ->

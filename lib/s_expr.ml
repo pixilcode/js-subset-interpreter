@@ -119,12 +119,13 @@ let from_value value =
     match value with
     | Value.Number i -> Expr [Atom "number"; Atom (string_of_int i)]
     | Value.Boolean b -> Expr [Atom "boolean"; Atom (string_of_bool b)]
-    | Value.Function (arg_name, body) -> Expr [
+    | Value.Function (arg_name, body, _env) -> Expr [
         Atom "function";
         Expr [Atom "arg_name"; string_atom arg_name];
         let body = List.map from_statement body in
         Expr ([Atom "body"] @ body)
       ]
+    | Value.Void -> Expr [Atom "void"]
   in
   Expr [Atom "value"; value]
 
