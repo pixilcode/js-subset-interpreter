@@ -3,26 +3,6 @@ open Core
 let error msg =
   Error ("Oh bananas! " ^ msg)
 
-module Env: sig
-  type ident = string
-  type t
-
-  val empty: t
-  val get: t -> ident -> Value.t option
-  val set: t -> ident -> Value.t -> t
-end = struct
-  type ident = string
-  type t = (ident, Value.t) Hashtbl.t
-
-  let empty = Hashtbl.create (module String)
-
-  let get env ident = Hashtbl.find env ident
-
-  let set env ident value =
-    Hashtbl.set ~key:ident ~data:value env;
-    env
-end
-
 let interpret ast =
   let open Ast in
   let open Core.Result.Monad_infix in
@@ -32,7 +12,7 @@ let interpret ast =
     | Literal.Boolean b -> Value.Boolean b
   in
 
-  let rec eval_expression e env: (Value.t * Env.t, string) result =
+  let rec eval_expression e env: (Value.t * Value.t Env.t, string) result =
     match e with
     | Expression.Literal l -> Ok (eval_literal l, env)
     | Expression.Binary (lhs, op, rhs) -> begin
@@ -93,17 +73,20 @@ let interpret ast =
       | _ -> error "Invalid condition in conditional"
     end
     | Expression.Identifier ident ->
-      let value = Env.get env ident in
+      let value = Env.get ~ident env in
       let ident_error = error "Undefined identifier" in
       Option.value_map value ~default:ident_error ~f:(
         fun value -> Ok (value, env)
       )
-    | Expression.Call (fn, arg) ->
-      failwith "unimplemented"
+    | Expression.Call (fn, arg) -> begin
+      eval_expression fn env >>= fun (fn, env) ->
+      eval_expression arg env >>= fun (arg, env) ->
+      eval_function_call fn arg env
+    end
     | Expression.Function (arg_name, body) ->
       failwith "unimplemented"
 
-  and eval_statement s env: (Value.t option * Env.t, string) result =
+  and eval_statement s env: (Value.t option * Value.t Env.t, string) result =
     match s with
     | Statement.Expression_statement e ->
       eval_expression e env >>| fun (value, env) ->
@@ -112,7 +95,7 @@ let interpret ast =
       let env = List.fold decls ~init:(Ok env) ~f:(fun env (ident, expr) ->
         env >>= fun env ->
         eval_expression expr env >>= fun (value, env) ->
-        let env = Env.set env ident value in
+        let env = Env.set ~ident ~value env in
         Ok (env)
       ) in
       env >>| fun env ->
@@ -121,10 +104,22 @@ let interpret ast =
       eval_statement_list stmts env >>| fun (_results, env) ->
       (* a block doesn't return its results *)
       (None, env)
-    | Statement.Return_statement expression ->
-      failwith "unimplemented"
+    | Statement.Return_statement _expression ->
+      error "Return statement outside of a function"
+    
+  and eval_function_call fn arg env: (Value.t, string) result =
+    let original_env = env in
+    match fn with
+    | Value.Function (arg_name, body, env) ->
+      let env =
+        Env.with_parent env
+        |> Env.set ~ident:arg_name ~value:arg
+      in
+      eval_function_body
+      failwith ""
+    | _ -> error "Non-function item cannot be called"
   
-  and eval_statement_list stmts env: (Value.t list * Env.t, string) result =
+  and eval_statement_list stmts env: (Value.t list * Value.t Env.t, string) result =
     List.fold stmts ~init:(Ok ([], env)) ~f:(fun prev_result s ->
       prev_result >>= fun (prev_outputs, env) ->
       eval_statement s env >>= fun (output, env) ->
@@ -133,10 +128,10 @@ let interpret ast =
     )
   in
   
-  let eval_program p env: (Value.t list * Env.t, string) result =
+  let eval_program p env: (Value.t list * Value.t Env.t, string) result =
     match p with
     | Program.Program stmts ->
       eval_statement_list stmts env
   in
   
-  eval_program ast Env.empty
+  eval_program ast (Env.empty ())

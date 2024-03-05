@@ -1,0 +1,28 @@
+open Core
+
+type ident = string
+type 'value table = (ident, 'value) Hashtbl.t
+type 'value t =
+  | Top of 'value table
+  | Child of 'value table * 'value t
+
+let empty () = Top (Hashtbl.create (module String))
+
+let with_parent parent = Child (Hashtbl.create (module String), parent)
+
+let rec get ~ident env = 
+  match env with
+  | Top table -> Hashtbl.find table ident
+  | Child (table, parent) ->
+    match Hashtbl.find table ident with
+    | Some value -> Some value
+    | None -> get ~ident parent 
+
+let set ~ident ~value env =
+  match env with
+  | Top table ->
+    Hashtbl.set ~key:ident ~data:value table;
+    Top table
+  | Child (table, parent) ->
+    Hashtbl.set ~key:ident ~data:value table;
+    Child (table, parent)
