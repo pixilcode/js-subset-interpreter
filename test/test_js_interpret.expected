@@ -76,3 +76,21 @@
 --- simple_function ---
 (value (number 1))
 
+--- function_environment ---
+(value (number 2))
+
+--- function_param_shadowing ---
+(value (number 2))
+
+--- nested_function_calls ---
+(value (number 1))
+
+--- call_non_function_error ---
+(error "Oh bananas! Non-function item cannot be called")
+
+--- function_arg_error ---
+(error "Oh bananas! Cannot divide by zero")
+
+--- does_not_exist_error ---
+(error "Oh bananas! Undefined identifier")
+

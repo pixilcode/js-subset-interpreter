@@ -8,7 +8,17 @@ type 'value t =
 
 let empty () = Top (Hashtbl.create (module String))
 
-let with_parent parent = Child (Hashtbl.create (module String), parent)
+let with_parent parent =
+  let rec copy parent =
+    match parent with
+    | Top table -> Top (Hashtbl.copy table)
+    | Child (table, parent) -> Child (
+      Hashtbl.copy table,
+      copy parent
+    )
+  in
+
+  Child (Hashtbl.create (module String), copy parent)
 
 let rec get ~ident env = 
   match env with

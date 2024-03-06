@@ -79,6 +79,53 @@ let tests = [
     f(1)
     "
   );
+
+  (
+    "function_environment", "
+    let a = 2;
+    let b = a;
+    let f = function (y) { return b }
+    f(1)
+    "
+  );
+
+  (
+    "function_param_shadowing", "
+    let x = 1;
+    let f = function (x) { return x }
+    f(2)
+    "
+  );
+
+  (
+    "nested_function_calls", "
+    let g = function (x) { return 1 }
+    let f = function (x) { return g(x) }
+    f(2)
+    "
+  );
+
+  (
+    "call_non_function_error", "
+    let f = 4;
+    f(1)
+    "
+  );
+
+  (
+    "function_arg_error", "
+    let f = 4;
+    f(1 / 0)
+    "
+  );
+
+  (
+    "does_not_exist_error", "
+    let f = function (x) { return a }
+    let a = 1;
+    f(2)
+    "
+  );
 ]
 
 (* iterate over all the tests and run them *)
