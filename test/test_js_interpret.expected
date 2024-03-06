@@ -77,7 +77,7 @@
 (value (number 1))
 
 --- function_environment ---
-(value (number 2))
+(value (number 1))
 
 --- function_param_shadowing ---
 (value (number 2))

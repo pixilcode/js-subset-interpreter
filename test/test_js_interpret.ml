@@ -76,16 +76,16 @@ let tests = [
   (
     "simple_function", "
     let f = function(x) { return 1 }
-    f(1)
+    f(2)
     "
   );
 
   (
     "function_environment", "
-    let a = 2;
+    let a = 1;
     let b = a;
     let f = function (y) { return b }
-    f(1)
+    f(2)
     "
   );
 
@@ -107,15 +107,15 @@ let tests = [
 
   (
     "call_non_function_error", "
-    let f = 4;
-    f(1)
+    let f = 1;
+    f(2)
     "
   );
 
   (
     "function_arg_error", "
-    let f = 4;
-    f(1 / 0)
+    let f = 1;
+    f(2 / 0)
     "
   );
 
