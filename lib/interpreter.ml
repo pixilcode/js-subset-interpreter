@@ -116,8 +116,7 @@ let interpret ast =
         Env.with_parent env
         |> Env.set ~ident:arg_name ~value:arg
       in
-      ignore (eval_function_body body env);
-      failwith ""
+      eval_function_body body env
     | _ -> error "Non-function item cannot be called"
   
   and eval_function_body stmts env: (Value.t, string) result =

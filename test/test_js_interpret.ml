@@ -76,7 +76,7 @@ let tests = [
   (
     "simple_function", "
     let f = function(x) { return 1 }
-    f()
+    f(1)
     "
   );
 ]

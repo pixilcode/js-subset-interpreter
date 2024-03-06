@@ -73,3 +73,6 @@
 --- multiple_definitions_same_decl ---
 (value (number 3))
 
+--- simple_function ---
+(value (number 1))
+
