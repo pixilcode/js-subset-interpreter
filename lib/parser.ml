@@ -104,6 +104,7 @@ let from_json_string json =
       let ident =
         json
         |> member "left"
+        |> member "name"
         |> to_string
       in
       let expression =
