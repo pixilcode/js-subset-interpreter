@@ -70,7 +70,7 @@ let from_json_string json =
     else if node_is_type json "FunctionExpression" then
       let params = json |> member "params" |> to_list in
       let num_params = List.length params in
-      if num_params != 1 then
+      if num_params <> 1 then
         let num_params_string = string_of_int num_params in
         fail_parsing (
           "Function must have one parameter, function has " ^
@@ -89,7 +89,7 @@ let from_json_string json =
       let callee = expression_from_json callee in
       let arguments = json |> member "arguments" |> to_list in
       let num_arguments = List.length arguments in
-      if num_arguments != 1 then
+      if num_arguments <> 1 then
         let num_arguments_string = string_of_int num_arguments in
         fail_parsing (
           "Function call must have one argument, call has " ^
