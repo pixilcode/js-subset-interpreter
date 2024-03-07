@@ -23,7 +23,8 @@ let (
   function_keyword,
   function_body_keyword,
   block_keyword,
-  return_keyword
+  return_keyword,
+  assignment_keyword
 ) = (
   Atom "boolean",
   Atom "number",
@@ -40,7 +41,8 @@ let (
   Atom "function",
   Atom "body",
   Atom "block",
-  Atom "return"
+  Atom "return",
+  Atom "assignment"
 )
 
 let from_literal = function
@@ -93,7 +95,12 @@ let rec from_expression = function
       Expr ([ function_body_keyword; ] @ body)
     ]
   | Expression.Assignment (ident, expression) ->
-    failwith "unimplemented"
+    let expression = from_expression expression in
+    Expr [
+      assignment_keyword;
+      string_atom ident;
+      expression
+    ]
 
 and from_statement = function
   | Statement.Expression_statement e -> Expr [ expression_statement_keyword; from_expression e ]
