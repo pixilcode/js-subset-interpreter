@@ -100,6 +100,18 @@ let from_json_string json =
         let arg = List.hd arguments in
         let arg = expression_from_json arg in
         Expression.Call (callee, arg)
+    else if node_is_type json "AssignmentExpression" then
+      let ident =
+        json
+        |> member "left"
+        |> to_string
+      in
+      let expression =
+        json
+        |> member "right"
+        |> expression_from_json
+      in
+      Expression.Assignment (ident, expression)
     else
       fail_parsing "Invalid expression!" json
 

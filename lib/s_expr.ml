@@ -92,6 +92,8 @@ let rec from_expression = function
       string_atom arg_name;
       Expr ([ function_body_keyword; ] @ body)
     ]
+  | Expression.Assignment (ident, expression) ->
+    failwith "unimplemented"
 
 and from_statement = function
   | Statement.Expression_statement e -> Expr [ expression_statement_keyword; from_expression e ]

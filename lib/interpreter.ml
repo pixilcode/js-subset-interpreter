@@ -87,6 +87,8 @@ let interpret ast =
     | Expression.Function (arg_name, body) ->
       let function_value = Value.Function (arg_name, body, Env.copy env) in
       Ok (function_value, env)
+    | Expression.Assignment (ident, expression) ->
+      failwith "unimplemented"
 
   and eval_statement s env: (Value.t option * Value.t Env.t, string) result =
     match s with

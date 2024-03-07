@@ -126,6 +126,15 @@ let tests = [
     f(2)
     "
   );
+
+  (* mutable values *)
+  (
+    "simple_assignment", "
+    let x = 1;
+    x = 2;
+    x
+    "
+  )
 ]
 
 (* iterate over all the tests and run them *)

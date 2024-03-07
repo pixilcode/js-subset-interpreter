@@ -58,6 +58,7 @@ module Expression = struct
     | Conditional of 'stmt t * 'stmt t * 'stmt t
     | Call of 'stmt t * 'stmt t
     | Function of Identifier.t * ('stmt list)
+    | Assignment of Identifier.t * 'stmt t
 end
 
 module Statement = struct
