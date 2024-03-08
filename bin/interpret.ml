@@ -5,7 +5,7 @@ let () =
   let ast = Parser.from_json_string input in
   let result = Interpreter.interpret ast in
   match result with
-  | Ok (values, _env) ->
+  | Ok (values, _env, _heap) ->
     let values = List.map S_expr.from_value values in
     let values = List.map S_expr.to_string values in
     List.iter print_endline values;

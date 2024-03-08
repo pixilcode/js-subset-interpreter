@@ -1,6 +1,6 @@
 open Core
 
-type t = Value.t list
+type 'value t = 'value list
 type address = int
 
 let empty () = []

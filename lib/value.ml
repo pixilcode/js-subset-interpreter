@@ -1,5 +1,5 @@
 type t =
 | Number of int
 | Boolean of bool
-| Function of string * Ast.Statement.t list * t Env.t
+| Function of string * Ast.Statement.t list * Env.t
 | Void
