@@ -8,7 +8,7 @@ let run_test (name, js) =
   let ast = Parser.from_json_string json in
   let result = Interpreter.interpret ast in
   match result with
-  | Ok (values, _env) ->
+  | Ok (values, _env, _heap) ->
     let values = List.map S_expr.from_value values in
     let values = List.map S_expr.to_string values in
     List.iter print_endline values;
@@ -156,4 +156,7 @@ let tests = [
 ]
 
 (* iterate over all the tests and run them *)
-let () = List.iter run_test tests
+let () =
+  print_endline "starting...";
+  List.iter run_test tests;
+  print_endline "done!"
