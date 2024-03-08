@@ -8,7 +8,9 @@ let () =
   | Ok (values, _env, _heap) ->
     let values = List.map S_expr.from_value values in
     let values = List.map S_expr.to_string values in
-    List.iter print_endline values;
+    let print_value = values |> List.rev |> List.hd in
+    print_endline print_value;
+    (* List.iter print_endline values; *)
     print_newline ()
   | Error message ->
     let message = S_expr.from_error message in

@@ -171,6 +171,14 @@ let tests = [
     }
     f(3)
     "
+  );
+
+  (
+    "autograder_a", "
+    let x = 5;
+    x = 6
+    x
+    "
   )
 ]
 
