@@ -91,8 +91,13 @@ let interpret ast =
     | Expression.Function (arg_name, body) ->
       let function_value = Value.Function (arg_name, body, Env.copy env) in
       Ok (function_value, env, heap)
-    | Expression.Assignment (_ident, _expression) ->
-      failwith "unimplemented"
+    | Expression.Assignment (ident, expression) ->
+      eval_expression expression env heap >>= fun (value, env, heap) ->
+      let heap = Env.update ~ident ~value ~heap env in
+      match heap with
+      | None -> error "Undefined identifier"
+      | Some heap ->
+        Ok (Value.Void, env, heap)
 
   and eval_statement s env heap: (value option * env * heap, string) result =
     match s with
@@ -100,7 +105,6 @@ let interpret ast =
       eval_expression e env heap >>| fun (value, env, heap) ->
       (Some value, env, heap)
     | Statement.Variable_declaration decls ->
-      (* TODO: weave heap through as well *)
       let state = List.fold decls ~init:(Ok (env, heap)) ~f:(fun state (ident, expr) ->
         state >>= fun (env, heap) ->
         eval_expression expr env heap >>= fun (value, env, heap) ->

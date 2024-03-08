@@ -1,5 +1,7 @@
 open Core
 
+(* TODO: extract heap from here, the Env doesn't need to know what it's holding *)
+
 type ident = string
 type table = (ident, Heap.address) Hashtbl.t
 type t =
