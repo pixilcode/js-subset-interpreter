@@ -22,7 +22,7 @@ let get_value_from_heap ident table heap =
   let open Option.Monad_infix in
 
   Hashtbl.find table ident >>| fun (address) ->
-  let value = Heap.get_value ~address heap in
+  let value = Heap.get ~address heap in
   value
 
 let rec get ~ident ~heap env = 
@@ -34,7 +34,7 @@ let rec get ~ident ~heap env =
     | None -> get ~ident ~heap parent 
 
 let set ~ident ~value ~heap env =
-  let address, heap = Heap.add_value ~value heap in
+  let address, heap = Heap.add ~value heap in
   match env with
   | Top table ->
     Hashtbl.set ~key:ident ~data:address table;

@@ -18,17 +18,17 @@ let out_of_bounds_error_message address heap =
       index
       (List.length heap)
 
-let add_value ~value heap =
+let add ~value heap =
   let value_address = List.length heap in
   (* value is appended to front for low addition cost,
      address is distance from the *end* *)
   let new_heap = value :: heap in
   (value_address, new_heap)
 
-let set_value ~address ~value heap =
+let set ~address ~value heap =
   let initial_index = address_to_list_index address heap in
 
-  let rec set_value ~index ~value heap =
+  let rec set ~index ~value heap =
     match heap with
     | [] ->
       let failure_message = out_of_bounds_error_message address heap in
@@ -38,15 +38,15 @@ let set_value ~address ~value heap =
         value :: rest
       else
         let next_index = index - 1 in
-        head :: (set_value ~value ~index:next_index heap)
+        head :: (set ~value ~index:next_index heap)
   in
 
-  set_value ~value ~index:initial_index heap
+  set ~value ~index:initial_index heap
 
-let get_value ~address heap =
+let get ~address heap =
   let initial_index = address_to_list_index address heap in
 
-  let rec get_value ~index heap =
+  let rec get ~index heap =
     if index = 0 then
       List.hd_exn heap
     else if index < 0 then
@@ -54,12 +54,12 @@ let get_value ~address heap =
     else
       let next_index = index - 1 in
       let heap_tail = List.tl_exn heap in
-      get_value ~index:next_index heap_tail
+      get ~index:next_index heap_tail
   in
 
   if initial_index < 0 || initial_index >= List.length heap then
     let failure_message = out_of_bounds_error_message address heap in
     failwith failure_message
   else
-    get_value ~index:initial_index heap
+    get ~index:initial_index heap
  
