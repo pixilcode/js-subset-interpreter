@@ -136,7 +136,6 @@ let tests = [
     "
   );
 
-  (*
   (
     "getter_setter", "
     let x = 1;
@@ -150,7 +149,6 @@ let tests = [
     get(1000000) // parameter isn't important
     "
   )
-  *)
 ]
 
 (* iterate over all the tests and run them *)
