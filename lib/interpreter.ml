@@ -134,7 +134,7 @@ let interpret ast =
     match stmts with
     | [] -> Ok (Value.Void, heap)
     | (Statement.Return_statement return_expr) :: _rest ->
-      eval_expression return_expr env heap >>= fun (return_value, _env, _heap) ->
+      eval_expression return_expr env heap >>= fun (return_value, _env, heap) ->
         Ok (return_value, heap)
     | stmt :: stmts_rest ->
       eval_statement stmt env heap >>= fun (_output, env, heap) ->

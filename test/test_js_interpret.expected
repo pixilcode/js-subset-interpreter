@@ -98,7 +98,16 @@
 (value (void))
 (value (number 2))
 
+--- multiple_assignment ---
+(value (void))
+(value (void))
+(value (number 3))
+(value (number 4))
+(value (number 7))
+
 --- getter_setter ---
 (value (void))
 (value (number 2))
+(value (void))
+(value (number 3))
 

@@ -137,6 +137,17 @@ let tests = [
   );
 
   (
+    "multiple_assignment", "
+    let x = 1, y = 2;
+    x = 3;
+    y = 4;
+    x;
+    y;
+    x + y
+    "
+  );
+
+  (
     "getter_setter", "
     let x = 1;
     let get = function (_) {
@@ -146,7 +157,9 @@ let tests = [
       return (x = a);
     }
     set(2);
-    get(1000000) // parameter isn't important
+    get(1000000); // parameter isn't important
+    set(3);
+    get(1000000);
     "
   )
 ]

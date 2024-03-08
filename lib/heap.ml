@@ -38,7 +38,7 @@ let set ~address ~value heap =
         value :: rest
       else
         let next_index = index - 1 in
-        head :: (set ~value ~index:next_index heap)
+        head :: (set ~value ~index:next_index rest)
   in
 
   set ~value ~index:initial_index heap
