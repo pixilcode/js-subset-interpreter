@@ -128,7 +128,6 @@ let tests = [
   );
 
   (* mutable values *)
-  (*
   (
     "simple_assignment", "
     let x = 1;
@@ -136,7 +135,6 @@ let tests = [
     x
     "
   );
-  *)
 
   (*
   (
