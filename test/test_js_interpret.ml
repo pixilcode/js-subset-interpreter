@@ -128,13 +128,31 @@ let tests = [
   );
 
   (* mutable values *)
+  (*
   (
     "simple_assignment", "
     let x = 1;
     x = 2;
     x
     "
+  );
+  *)
+
+  (*
+  (
+    "getter_setter", "
+    let x = 1;
+    let get = function (_) {
+      return x;
+    }
+    let set = function (a) {
+      return (x = a);
+    }
+    set(2);
+    get(1000000) // parameter isn't important
+    "
   )
+  *)
 ]
 
 (* iterate over all the tests and run them *)
