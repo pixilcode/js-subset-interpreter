@@ -111,3 +111,7 @@
 (value (void))
 (value (number 3))
 
+--- recursion ---
+(value (void))
+(value (number 3))
+

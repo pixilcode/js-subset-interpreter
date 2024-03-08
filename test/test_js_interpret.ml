@@ -161,6 +161,16 @@ let tests = [
     set(3);
     get(1000000);
     "
+  );
+
+  (
+    "recursion", "
+    let f = 0;
+    f = function (x) {
+      return (x == 0) ? 0 : 1 + f(x - 1);
+    }
+    f(3)
+    "
   )
 ]
 
