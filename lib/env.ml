@@ -18,14 +18,16 @@ let rec copy parent =
 
 let with_parent parent = Child (Hashtbl.create (module String), parent)
 
-let get_value_from_heap ident table heap =
-  let open Option.Monad_infix in
-
-  Hashtbl.find table ident >>| fun (address) ->
-  let value = Heap.get ~address heap in
-  value
 
 let rec get ~ident ~heap env = 
+  let get_value_from_heap ident table heap =
+    let open Option.Monad_infix in
+
+    Hashtbl.find table ident >>| fun (address) ->
+    let value = Heap.get ~address heap in
+    value
+  in
+
   match env with
   | Top table -> get_value_from_heap ident table heap
   | Child (table, parent) ->
@@ -42,3 +44,19 @@ let set ~ident ~value ~heap env =
   | Child (table, parent) ->
     Hashtbl.set ~key:ident ~data:address table;
     (Child (table, parent), heap)
+
+let rec update ~ident ~value ~heap env =
+  let open Option.Monad_infix in
+
+
+  match env with
+  | Top table ->
+    Hashtbl.find table ident >>| fun (address) ->
+    Heap.set ~address ~value heap
+  | Child (table, parent) ->
+    let result = Hashtbl.find table ident in
+    match result with
+    | Some address ->
+      let heap = Heap.set ~address ~value heap in
+      Some heap
+    | None -> update ~ident ~value ~heap parent
