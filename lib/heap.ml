@@ -8,7 +8,7 @@ let empty () = []
 let address_to_list_index address heap =
   let heap_length = List.length heap in
   let dist_from_end = address in
-  dist_from_end - heap_length - 1
+  heap_length - dist_from_end - 1
 
 let out_of_bounds_error_message address heap =
   let index = address_to_list_index address heap in
@@ -49,12 +49,14 @@ let get_value ~address heap =
   let rec get_value ~index heap =
     if index = 0 then
       List.hd_exn heap
+    else if index < 0 then
+      failwith "unreachable"
     else
       let next_index = index - 1 in
       get_value ~index:next_index heap
   in
 
-  if initial_index >= List.length heap then
+  if initial_index < 0 || initial_index >= List.length heap then
     let failure_message = out_of_bounds_error_message address heap in
     failwith failure_message
   else

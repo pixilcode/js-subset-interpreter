@@ -157,6 +157,4 @@ let tests = [
 
 (* iterate over all the tests and run them *)
 let () =
-  print_endline "starting...";
-  List.iter run_test tests;
-  print_endline "done!"
+  List.iter run_test tests
