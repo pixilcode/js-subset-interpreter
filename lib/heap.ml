@@ -53,7 +53,8 @@ let get_value ~address heap =
       failwith "unreachable"
     else
       let next_index = index - 1 in
-      get_value ~index:next_index heap
+      let heap_tail = List.tl_exn heap in
+      get_value ~index:next_index heap_tail
   in
 
   if initial_index < 0 || initial_index >= List.length heap then
@@ -61,4 +62,4 @@ let get_value ~address heap =
     failwith failure_message
   else
     get_value ~index:initial_index heap
-  
+ 
